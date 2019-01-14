@@ -1,0 +1,53 @@
+<!--   Author : Mehran   -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Four Sliders</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="FourSliders">
+        <input type="range" id="0" min="0" max="100" v-model="val[0]" @input="changed" /><br/>
+        <input type="range" id="1" min="0" max="100" v-model="val[1]" @input="changed" /><br/>
+        <input type="range" id="2" min="0" max="100" v-model="val[2]" @input="changed" /><br/>
+        <input type="range" id="3" min="0" max="100" v-model="val[3]" @input="changed" /><br/>
+        Sum : <input type="number" value="100" v-model="sum" />
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#FourSliders',
+            data: {
+                val: [100, 0, 0, 0],
+                sum: 100
+            },
+            methods : {
+                changed(e) {
+                    var i;
+                    var dif = Number(this.val[0]) + Number(this.val[1]) + Number(this.val[2]) + Number(this.val[3]) - Number(this.sum);
+                    for (i = 0; i < 4; i++) {
+                        if (i == e.target.id) continue;
+                        if (dif > 0) {
+                        if (this.val[i] - dif > 0) {
+                            this.val[i] -= dif;
+                            break;
+                        }
+                        else
+                            dif -= this.val[i], this.val[i] = 0;
+                        }
+                        else {
+                        if (this.val[i] - dif <= 100) {
+                            this.val[i] -= dif;
+                            break;
+                        }
+                        else
+                            dif += (100-this.val[i]), this.val[i] = 100;
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
